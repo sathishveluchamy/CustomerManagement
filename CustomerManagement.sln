@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35728.132 d17.12
+VisualStudioVersion = 17.12.35728.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.API", "CustomerManagement.API\CustomerManagement.API.csproj", "{66B2DA80-7D15-4451-8DBD-2674017B5546}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.Domain", "CustomerManagement.Domain\CustomerManagement.Domain.csproj", "{6509C9C1-01E7-4E5E-B65D-22D86F2E468C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.Infrastructure", "CustomerManagement.Infrastructure\CustomerManagement.Infrastructure.csproj", "{774C67F1-3B08-4FD4-B5BB-B1104DCD4F8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagementTests", "CustomerManagementTests\CustomerManagementTests.csproj", "{C52F2BFC-53B0-45E8-8315-CC473A36B984}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{774C67F1-3B08-4FD4-B5BB-B1104DCD4F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{774C67F1-3B08-4FD4-B5BB-B1104DCD4F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{774C67F1-3B08-4FD4-B5BB-B1104DCD4F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52F2BFC-53B0-45E8-8315-CC473A36B984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52F2BFC-53B0-45E8-8315-CC473A36B984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52F2BFC-53B0-45E8-8315-CC473A36B984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52F2BFC-53B0-45E8-8315-CC473A36B984}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
