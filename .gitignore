@@ -1,0 +1,63 @@
+## Ignore build outputs
+bin/
+obj/
+
+## Ignore Visual Studio temporary files, build results, and
+## user-specific files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider / JetBrains IDE
+.idea/
+*.sln.iml
+
+## Ignore .NET Core-specific files
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Ignore dotnet watch temp files
+**/node_modules/
+**/dist/
+**/wwwroot/lib/
+
+## Ignore NuGet packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+*.nuspec
+
+## Logs and database
+*.log
+*.sql
+*.sqlite
+*.db
+
+## VS Code settings
+.vscode/
+.history/
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## Resharper
+_ReSharper*/
+*.DotSettings.user
+
+## Ignore secrets (if any)
+secrets.json
+.env
+.env.*
+
+## Test results
+TestResults/
+coverage/
+
+## Ignore generated Swagger docs (if applicable)
+swagger.json
+swagger.yaml
