@@ -33,5 +33,10 @@ namespace CustomerManagement.Infrastructure.Repositories
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
         }
+
+        async Task<bool> ICustomerRepository.EmailExistsAsync(string email)
+        {
+            return await _context.Customers.AnyAsync(c => c.Email == email);
+        }
     }
 }

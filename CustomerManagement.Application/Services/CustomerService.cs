@@ -21,6 +21,9 @@ namespace CustomerManagement.Application.Services
 
         public async Task AddAsync(CustomerDto dto)
         {
+            if (await _repository.EmailExistsAsync(dto.Email))
+                throw new InvalidOperationException("A Customer with this email already exists.");
+            
             var customer = new Customer(dto.Name, dto.Email);
             await _repository.AddAsync(customer);
         }
