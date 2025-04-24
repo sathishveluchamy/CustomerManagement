@@ -12,5 +12,6 @@ namespace CustomerManagement.Domain.Interfaces
         Task<Customer> GetByIdAsync(Guid id);
         Task<IEnumerable<Customer>> GetAllAsync();
         Task AddAsync(Customer customer);
+        Task<Boolean> EmailExistsAsync(string email);
     }
 }
