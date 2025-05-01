@@ -10,7 +10,6 @@ using System.Text;
 
 namespace CustomerManagement.API.Controllers
 {
-    [Authorize(Roles ="CustomerAdmin")]
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
@@ -23,9 +22,9 @@ namespace CustomerManagement.API.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public IActionResult Login(LoginRequest request)
         {
-            // 🔐 Replace with real user validation logic
+            // 🔐 TO DO. Replace with real user validation logic
             if (request.Username != "admin" || request.Password != "password")
                 return Unauthorized();
 
@@ -42,7 +41,7 @@ namespace CustomerManagement.API.Controllers
             {
             new Claim(JwtRegisteredClaimNames.Sub, username),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Role, "CustomerAdmin") // 🎯 Role-based auth support
+            new Claim(ClaimTypes.Role, "CustomerAdmin")
         };
 
             var token = new JwtSecurityToken(

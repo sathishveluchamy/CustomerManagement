@@ -1,5 +1,6 @@
 ﻿using CustomerManagement.Application.DTOs;
 using CustomerManagement.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerManagement.API.Controllers
@@ -7,6 +8,7 @@ namespace CustomerManagement.API.Controllers
     /// <summary>
     /// Provides API endpoints for managing customer data.
     /// </summary>
+    [Authorize(Roles = "CustomerAdmin")]
     [ApiController]
     [Route("api/[controller]")]
     public class CustomerController : ControllerBase

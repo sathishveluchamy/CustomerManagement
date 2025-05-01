@@ -1,14 +1,13 @@
-﻿
-using CustomerManagement.Application.Interfaces;
+﻿using CustomerManagement.Application.Interfaces;
 using CustomerManagement.Application.Services;
 using CustomerManagement.Domain.Interfaces;
 using CustomerManagement.Infrastructure.Data;
 using CustomerManagement.Infrastructure.Repositories;
+using CustomerManagement.API.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
 
 namespace CustomerManagement.API
 {
@@ -18,6 +17,14 @@ namespace CustomerManagement.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            
+            builder.Services.Configure<JwtSettings>(
+                builder.Configuration.GetSection("JwtSettings"));
+            var jwtSettings = builder.Configuration
+                .GetSection("JwtSettings")
+                .Get<JwtSettings>();
+
+            
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
@@ -29,7 +36,7 @@ namespace CustomerManagement.API
             });
 
             builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
@@ -38,24 +45,28 @@ namespace CustomerManagement.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-
+            
+            if (string.IsNullOrWhiteSpace(jwtSettings.SecretKey))
+            {
+                throw new Exception("JwtSettings:SecretKey is missing or empty in configuration.");
+            }
+           
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = true,                   
-                        ValidateAudience = true,                 
-                        ValidateLifetime = true,                 
-                        ValidateIssuerSigningKey = true,         
-                        ValidIssuer = jwtSettings["Issuer"],
-                        ValidAudience = jwtSettings["Audience"],
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidAudience = jwtSettings.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(jwtSettings["SecretKey"])),
-                        ClockSkew = TimeSpan.FromMinutes(2)      
+                            Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
+                        ClockSkew = TimeSpan.FromMinutes(2)
                     };
-                    options.RequireHttpsMetadata = true;         
+                    options.RequireHttpsMetadata = true;
                 });
 
             var app = builder.Build();
