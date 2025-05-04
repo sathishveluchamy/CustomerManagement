@@ -40,7 +40,7 @@ jobs:
           -reporttypes:Html
 
     - name: 📤 Upload coverage report as artifact
-      uses: actions/upload-artifact@latest
+      uses: actions/upload-artifact@v4
       with:
         name: Code Coverage Report
         path: coveragereport
@@ -63,5 +63,4 @@ jobs:
         percent=$(echo "$coverage * 100" | bc -l | xargs printf "%.2f")
         echo "### 📊 Code Coverage Report" >> $GITHUB_STEP_SUMMARY
         echo "**Line Coverage:** $percent%" >> $GITHUB_STEP_SUMMARY
-
-
+        echo "**Coverage Report:** [Download HTML Report Artifact](${{ steps.upload.outputs.artifact_url }})" >> $GITHUB_STEP_SUMMARY
