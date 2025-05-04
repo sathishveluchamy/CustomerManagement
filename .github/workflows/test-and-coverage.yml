@@ -40,7 +40,7 @@ jobs:
           -reporttypes:Html
 
     - name: 📤 Upload coverage report as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@latest
       with:
         name: Code Coverage Report
         path: coveragereport
