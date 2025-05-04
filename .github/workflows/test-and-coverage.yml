@@ -1,0 +1,67 @@
+name: .NET Tests & Code Coverage
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: Build, Test, Coverage
+
+    steps:
+    - name: 🧾 Checkout repository
+      uses: actions/checkout@v3
+
+    - name: 🛠️ Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.x'
+
+    - name: 🔄 Restore dependencies
+      run: dotnet restore
+
+    - name: 🏗️ Build solution
+      run: dotnet build --no-restore --configuration Release
+
+    - name: 🧪 Run tests with coverage
+      run: dotnet test CustomerManagement.Tests --no-build --configuration Release --collect:"XPlat Code Coverage"
+
+    - name: 📦 Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: 📊 Generate HTML coverage report
+      run: |
+        reportgenerator \
+          -reports:**/coverage.cobertura.xml \
+          -targetdir:coveragereport \
+          -reporttypes:Html
+
+    - name: 📤 Upload coverage report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Code Coverage Report
+        path: coveragereport
+
+    - name: 🚨 Enforce minimum coverage (80%)
+      run: |
+        coverage=$(grep -oP 'line-rate="\K[0-9.]+' **/coverage.cobertura.xml | head -1)
+        echo "Detected line coverage: $coverage"
+        threshold=0.80
+        if (( $(echo "$coverage < $threshold" | bc -l) )); then
+          echo "❌ Code coverage ($coverage) is below threshold ($threshold)"
+          exit 1
+        else
+          echo "✅ Code coverage ($coverage) meets threshold ($threshold)"
+        fi
+
+    - name: 📝 Append coverage summary to GitHub Actions job
+      run: |
+        coverage=$(grep -oP 'line-rate="\K[0-9.]+' **/coverage.cobertura.xml | head -1)
+        percent=$(echo "$coverage * 100" | bc -l | xargs printf "%.2f")
+        echo "### 📊 Code Coverage Report" >> $GITHUB_STEP_SUMMARY
+        echo "**Line Coverage:** $percent%" >> $GITHUB_STEP_SUMMARY
+
+
